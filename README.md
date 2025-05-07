@@ -7,18 +7,21 @@ This example depicts a real scenario with developed software to interface with c
 
 A typical facility has tens of cameras. Each camera can be accessed by multiple clients. Typically, there would be a central hub that displayed between 1 and 10 camera views in a control station room, but also each camera could be directly connected to one of many laptops that would be brought out to the manufacturing floor for close up, remote inspection.
 
-In the ```./original/``` directory, you'll see a simplified depiction of the code. The ```ImageClient.py``` is the client code that connects to the ```CameraHandler.py```, which is the code / class that interfaces with the camera on the server.
+In the ```./original/``` directory, you'll see a simplified depiction of the code. The ```ImageClient.py``` is the client code that connects to the ```CameraHandler.py```, which is the class that interfaces with the camera on the server.
 These systems almost always used one particular brand of camera, which is a Basler.
 
 ## Situation that required an Adapter
 Some customers would ask for special cameras that suite particular needs (higher frame rate, larger sensors, non standard color schemes, etc). To custom tailor these requests, we would have to add these specialized cameras upon request.
 
-If we were NOT using an adapter, we would have to implement the following workflow:
+If we were NOT using an adapter, we would have the following workflow:
 - Add new camera interfacing code module on the server.
 - Update client such that the target has if/else statements or case/switch statements wherever the hardware interface code occurs.
-- Roll out these changes to one location on the server, and update every single client (which could be up to 50) with the new client code. [BIG TASK WITH POTENTIAL ERROR IN MISSED DEVICES!!]
+- Roll out these changes to one location on the server, and update every single client (which could be up to 50) with the new client code.
+> [!CAUTION]
+> This last task above is large in scope, and potential errors in rollout operation.
 
-If we DID use an adapter, we would have to implement the following workflow:
+  \
+If we DID use an adapter, we would have the following workflow:
 - No changes needed to make on any client code.
 - Add new camera interfacing code module on the server, as well as Adapter->Adaptee classes to keep client code consistent.
 
@@ -28,9 +31,9 @@ As one can see from reading above, utilizing the adapter pattern involves signif
 ## Original Code
 In the directory ```./existing code/```, you can see what the original implemenation was with ```CameraHandler.py``` and ```ImageClient.py```.
 
-This class below manages the connection to the ```CameraHandle```r class and calls all of the methods which were written as an interfact to the Basler cameras. It calls methods to set the camera's width, start grabbing images, and return these images upon request.
+This class below manages the connection to the ```CameraHandler``` class and calls all of the methods which were written as an interfact to the Basler cameras. It calls methods to set the camera's width, start grabbing images, stop grabbing images, and return these images upon request.
 ### ImageClient.py
-```
+```python
 import cv2
 import CameraHandler
 
@@ -60,7 +63,7 @@ class ImageClient:
 
 This class below handles the interface to the actual camera hardware. It handles the logic to initialize, set properties through firmware, start grabbing images upon request, and return images to the caller.
 ### CameraHandler.py
-```
+```python
 from pypylon import pylon
 
 class CameraHandler:
@@ -99,7 +102,7 @@ In the directory ```./adapter update/``` , you can see what the new adapter impl
 
 This class below is the adapter, and is named ```CameraHandler``` so that all of the client code stays exactly the same. It provides all of the same methods, but under each it calls the more specific functions for the new camera interface (in this case, Dalsa cameras). 
 ### CameraHandler.py
-```
+```python
 import CameraAdaptee
 
 #this is the adapter
@@ -128,7 +131,7 @@ class CameraHandler:
 
 This class below is the adaptee for the new camera type. It manages all of the camera interface logic for the new hardware, and is called by the adapter which is the ```CameraHandler``` class. 
 ### CameraAdaptee.py
-```
+```python
 from pygigev import PyGigEV as gev
 
 #this is the adaptee, implementing the new camera interface
@@ -167,10 +170,10 @@ class CameraAdaptee:
 
 Nothing to show for this one, because it's the exact same as the ImageClient.py from the existing code. This was the whole purpose of this design pattern for this scenario!
 ### ImageClient.py
-NOTE, THIS IS UNCHANGED!!!
+**NOTE, THIS IS UNCHANGED!!!**
+
+> [!NOTE]
+> I don't have details on how to compile this and make it run, because one would need both a Basler and Dalsa camera to operate this code. This is more a visual and contextual example, but not one that's intent to be run.
 
 ## Conclusion
 As one can see from reading the details above, this is a scenario where the adapter pattern is particularly useful. We only had to modify a few clases on the server and push the changes out to one location, and didn't have to update the client at all; which would have been a large effor in terms of operations and downtime for the customers. The adapter can be a useful tool in the right situation, such as this.
-
-## Note
-I don't have details on how to compile this and make it run, because one would need both a Basler and Dalsa camera to operate this code. This is more a visual and contextual example, but not one that's intent to be run.
