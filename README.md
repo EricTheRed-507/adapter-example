@@ -1,14 +1,12 @@
 # Adapter pattern example
 
-## Pattern definition
-A structural design pattern that enables the usage of an existing class’s interface as an additional interface is the adapter design pattern. To make two incompatible interfaces function together, it serves as a bridge. This pattern involves a single class, the adapter, responsible for joining functionalities of independent or incompatible interfaces.
-
 ## Background to the application of interest
 This example depicts a real scenario with developed software to interface with cameras throughout manufacturing facilities. The role of this system is to have multiple connection points to the cameras for displaying, storage of the camera frames in databases, and tacking on image processing for defect detection. The following depicts the high level setup:
 ![CameraServerClient drawio](https://github.com/user-attachments/assets/f360ac3a-9d6d-4b0e-ab86-bd2d403fdbfc)
+
 A typical facility has tens of cameras. Each camera can be accessed by multiple clients. Typically, there would be a central hub that displayed between 1 and 10 camera views in a control station room, but also each camera could be directly connected to one of many laptops that would be brought out to the manufacturing floor for close up, remote inspection.
 
-In the ./original directory, you'll see a simplified depiction of the code. The ImageClient.py is the client code that connects to the CameraHandler.py, which is the code / class that interfaces with the camera on the server.
+In the ```./original/``` directory, you'll see a simplified depiction of the code. The ```ImageClient.py``` is the client code that connects to the CameraHandler.py, which is the code / class that interfaces with the camera on the server.
 These systems almost always used one particular brand of camera, which is a Basler.
 
 ## Situation that required an Adapter
@@ -29,7 +27,7 @@ As one can see from reading above, utilizing the adapter pattern involves signif
 ## Original Code
 In the directory ./existing code/ , you can see what the original implemenation was with CameraHandler.py and ImageClient.py.
 
-This class manages the connection to the CameraHandler class and calls all of the methods which were written as an interfact to the Basler cameras. It calls methods to set the camera's width, start grabbing images, and return these images upon request.
+This class below manages the connection to the CameraHandler class and calls all of the methods which were written as an interfact to the Basler cameras. It calls methods to set the camera's width, start grabbing images, and return these images upon request.
 ### ImageClient.py
 ```
 import cv2
@@ -59,7 +57,7 @@ class ImageClient:
         self.camera_handler.stop_and_close()
 ```
 
-This class handles the interface to the actual camera hardware. It handles the logic to initialize, set properties through firmware, start grabbing images upon request, and return images to the caller.
+This class below handles the interface to the actual camera hardware. It handles the logic to initialize, set properties through firmware, start grabbing images upon request, and return images to the caller.
 ### CameraHandler.py
 ```
 from pypylon import pylon
@@ -98,7 +96,7 @@ class CameraHandler:
 In the directory ./adapter update/ , you can see what the new adapter implemenation is with CameraHandler.py, CameraAdaptee.py, and ImageClient.py .
 
 
-This class is the adapter, and is named "CameraHandler" so that all of the client code stays exactly the same. It provides all of the same methods, but under each it calls the more specific functions for the new camera interface (in this case, Dalsa cameras). 
+This class below is the adapter, and is named "CameraHandler" so that all of the client code stays exactly the same. It provides all of the same methods, but under each it calls the more specific functions for the new camera interface (in this case, Dalsa cameras). 
 ### CameraHandler.py
 ```
 import CameraAdaptee
@@ -127,7 +125,7 @@ class CameraHandler:
         self.new_camera_handler.close_camera()
 ```
 
-This class is the adaptee for the new camera type. It manages all of the camera interface logic for the new hardware, and is called by the adapter which is the "CameraHandler" class. 
+This class below is the adaptee for the new camera type. It manages all of the camera interface logic for the new hardware, and is called by the adapter which is the "CameraHandler" class. 
 ### CameraAdaptee.py
 ```
 from pygigev import PyGigEV as gev
@@ -165,6 +163,7 @@ class CameraAdaptee:
     def close_camera(self):
         self.ctx.GevCloseCamera()
 ```
+
 Nothing to show for this one, because it's the exact same as the ImageClient.py from the existing code. This was the whole purpose of this design pattern for this scenario!
 ### ImageClient.py
 NOTE, THIS IS UNCHANGED!!!
