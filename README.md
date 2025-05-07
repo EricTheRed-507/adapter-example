@@ -176,4 +176,4 @@ Nothing to show for this one, because it's the exact same as the ImageClient.py 
 > I don't have details on how to compile this and make it run, because one would need both a Basler and Dalsa camera to operate this code. This is more a visual and contextual example, but not one that's intent to be run.
 
 ## Conclusion
-As one can see from reading the details above, this is a scenario where the adapter pattern is particularly useful. We only had to modify a few clases on the server and push the changes out to one location, and didn't have to update the client at all; which would have been a large effor in terms of operations and downtime for the customers. The adapter can be a useful tool in the right situation, such as this.
+As one can see from reading the details above, this is a scenario where the adapter pattern is particularly useful. We only had to modify a few clases on the server and push the changes out to one location, and didn't have to update the client at all; which would have been a large effort in terms of operations and downtime for the customers. The adapter can be a useful tool in the right situation, such as this.
