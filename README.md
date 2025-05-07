@@ -15,15 +15,17 @@ Some customers would ask for special cameras that suite particular needs (higher
 
 If we were NOT using an adapter, we would have the following workflow:
 - Add new camera interfacing code module on the server.
-- Update client such that the target has if/else statements or case/switch statements wherever the hardware interface code occurs.
-- Roll out these changes to one location on the server, and update every single client (which could be up to 50) with the new client code.
+- Update client code such that the target has if/else statements or case/switch statements wherever the hardware interface code occurs.
+- Roll out these changes to one location on the server.
+- Update every single client with the new client code.
 > [!CAUTION]
-> This last task above is large in scope, and potential errors in rollout operation.
+> This last task above is large in scope, and potential errors in rollout operation. At a facility there could be up to 50 clients running our software.
 
   \
 If we DID use an adapter, we would have the following workflow:
 - No changes needed to make on any client code.
 - Add new camera interfacing code module on the server, as well as Adapter->Adaptee classes to keep client code consistent.
+- Roll out these changes to one location on the server.
 
 As one can see from reading above, utilizing the adapter pattern involves significant reduction of scope for the rollout of a new camera type if they're custom requests at various manufacturing facilities. All we need to do is update the server code in one location (the server rack) and we don't have to manage tens of client code updates running on the client machines.
 
