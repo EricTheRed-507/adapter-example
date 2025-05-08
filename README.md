@@ -27,7 +27,7 @@ If we DID use an adapter, we would have the following workflow:
 - Add new camera interfacing code module on the server, as well as Adapter->Adaptee classes to keep client code consistent.
 - Roll out these changes to one location on the server.
 
-As one can see from reading above, utilizing the adapter pattern involves significant reduction of scope for the rollout of a new camera type if they're custom requests at various manufacturing facilities. All we need to do is update the server code in one location (the server rack) and we don't have to manage tens of client code updates running on the client machines.
+As one can see from reading above, utilizing the adapter pattern involves significant reduction of scope for the rollout of a new camera types at various manufacturing facilities. If utilizing an adapter, all we need to do is update the server code in one location (the server rack) and we don't have to manage tens of client code updates running on the client machines.
 
 ## Adapter implementation explained
 ## Original Code
