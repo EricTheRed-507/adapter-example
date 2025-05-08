@@ -11,7 +11,7 @@ In the ```./original/``` directory, you'll see a simplified depiction of the cod
 These systems almost always used one particular brand of camera, which is a Basler.
 
 ## Situation that required an Adapter
-Some customers would ask for special cameras that suite particular needs (higher frame rate, larger sensors, non-standard image sensors, etc.). To custom tailor these requests, we would have to add these specialized cameras upon request.
+Some customers would ask for special cameras that suit particular needs (higher frame rate, larger sensors, non-standard image sensors, etc.). To custom tailor these requests, we would have to add these specialized cameras upon request.
 
 If we were NOT using an adapter, we would have the following workflow:
 - Add new camera interfacing code module on the server.
@@ -175,7 +175,7 @@ Nothing to show for this one, because it's the exact same as the ImageClient.py 
 **NOTE, THIS IS UNCHANGED!!!**
 
 > [!NOTE]
-> I don't have details on how to compile this and make it run, because one would need both a Basler and Dalsa camera to operate this code. This is more a visual and contextual example, but not one that's intent to be run.
+> I don't have details on how to compile this and make it run, because one would need both a Basler and Dalsa camera to operate this code. This is more a visual and contextual example, but not one that's intended to be run.
 
 ## Conclusion
 As one can see from reading the details above, this is a scenario where the adapter pattern is particularly useful. We only had to modify a few classes on the server and push the changes out to one location, and didn't have to update the client at all; which would have been a large effort in terms of operations and downtime for the customers. The adapter can be a useful tool in the right situation, such as this.
